@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -78,6 +79,11 @@ namespace DaemonManager
             if (ShowMissingError()) return;
             Utils.RestartService();
             MessageBox.Show("Ulterius has been restarted", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://ulterius.io/guide/");
         }
     }
 }
