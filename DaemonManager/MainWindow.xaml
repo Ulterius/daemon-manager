@@ -1,0 +1,31 @@
+﻿<Window x:Class="DaemonManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DaemonManager"
+        mc:Ignorable="d"
+         Icon="256.ico"
+        Title="Ulterius Daemon Manager" Height="166" Width="250" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    
+    <Window.Resources>
+
+        <SolidColorBrush x:Key="BrushFFXXXXXX">#434B63</SolidColorBrush>
+        <SolidColorBrush x:Key="UlteriusGrey" Color="#33394d" />
+        <SolidColorBrush x:Key="UlteriusLightGrey" Color="#485069" />
+    </Window.Resources>
+    <StackPanel Background="{StaticResource UlteriusGrey}"  HorizontalAlignment="Left" Width="244" Margin="0,0,0,-4">
+        <Label x:Name="UlteriusInstalledLabel" Content="Ulterius is Installed" HorizontalAlignment="Center" Foreground="White" FontSize="18"/>
+        <TextBlock  x:Name="ServerStatusBlock" FontSize="18" Foreground="WhiteSmoke"  HorizontalAlignment="Center" Text="Server: Running"/>
+        <TextBlock  x:Name="AgentStatusBlock"  FontSize="18" Foreground="WhiteSmoke" HorizontalAlignment="Center" Panel.ZIndex="-1" Text="Agent: Running"  />
+        <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <Button x:Name="RestartButton" Content="Restart Ulterius" Margin="0,0,5,0" Width="100" Height="30" Click="RestartButton_Click" />
+                <Button x:Name="StateButton" Content="Kill Ulterius" Margin="0,0,5,0" Width="100" Click="StateButton_Click" />
+            </StackPanel>
+
+        </StackPanel>
+       
+    </StackPanel>
+
+</Window>
