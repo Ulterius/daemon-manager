@@ -8,9 +8,9 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DaemonManager")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A small GUI application to manage an Ulterius installation.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Octopodal Solutions")]
 [assembly: AssemblyProduct("DaemonManager")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
