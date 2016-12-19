@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
+using System.Windows.Forms;
 using DaemonManager.Tools;
+using Hardcodet.Wpf.TaskbarNotification;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace DaemonManager
 {
@@ -25,10 +24,17 @@ namespace DaemonManager
     {
         public MainWindow()
         {
+            Utils.KillAllButMe();
+            if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1) return;
             InitializeComponent();
+       
             var service = new Task(SetText);
             service.Start();
+            this.Hide();
+            TrayIcon.ShowBalloonTip("Ulterius", "Daemon manager started.", BalloonIcon.Info);
+
         }
+     
 
         private void SetText()
         {
@@ -40,6 +46,7 @@ namespace DaemonManager
                     ServerStatusBlock.Text = $"Server: {GetStatusString(Utils.ServerRunning())}";
                     AgentStatusBlock.Text = $"Agent: {GetStatusString(Utils.AgentRunning())}";
                     StateButton.Content = Utils.ServerRunning() ? "Kill Ulterius" : "Start Ulterius";
+                    TrayIcon.ToolTipText = $"Server: {GetStatusString(Utils.ServerRunning())}\nAgent: {GetStatusString(Utils.AgentRunning())}";
                 });
 
                 Thread.Sleep(1000);
@@ -55,7 +62,8 @@ namespace DaemonManager
         private bool ShowMissingError()
         {
             if (Utils.UlteriusInstalled()) return false;
-            MessageBox.Show("Ulterius is not currently installed.", "Uh Oh", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            TrayIcon.ShowBalloonTip("Ulterius", "The server is not currently installed", BalloonIcon.Error);
             return true;
         }
         private void StateButton_Click(object sender, RoutedEventArgs e)
@@ -64,13 +72,13 @@ namespace DaemonManager
             if (Utils.ServerRunning() || Utils.AgentRunning())
             {
                 Utils.KillUlterius();
-                MessageBox.Show("Ulterius has been stopped", "Sucess", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                TrayIcon.ShowBalloonTip("Ulterius", "The server has been stopped", BalloonIcon.Info);
             }
             else
             {
                 Utils.RestartService();
-                MessageBox.Show("Ulterius has been restarted", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                TrayIcon.ShowBalloonTip("Ulterius", "The server has been restarted", BalloonIcon.Info);
+
             }
         }
 
@@ -78,12 +86,49 @@ namespace DaemonManager
         {
             if (ShowMissingError()) return;
             Utils.RestartService();
-            MessageBox.Show("Ulterius has been restarted", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            TrayIcon.ShowBalloonTip("Ulterius", "The server has been restarted", BalloonIcon.Info);
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
+            var ip = Utils.GetDisplayAddress();
+            var httpPort = 22006;
+            Process.Start($"http://{ip}:{httpPort}");
+        
+        }
+
+        private void Register_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://ulterius.io/signup/");
+        }
+
+        private void Survey_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://ulterius.io/survey/");
+        }
+
+        private void Guide_CLick(object sender, RoutedEventArgs e)
+        {
             Process.Start("https://ulterius.io/guide/");
+        }
+
+        private void OpenGui(object sender, RoutedEventArgs e)
+        {
+            this.Show();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            this.Hide();
+            e.Cancel = true;
+
+        }
+
+        private void CloseApp(object sender, RoutedEventArgs e)
+        {
+            TrayIcon.Dispose();
+            TrayIcon = null;
+            Environment.Exit(0);
         }
     }
 }

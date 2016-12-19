@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DaemonManager"
+        xmlns:tb="http://www.hardcodet.net/taskbar" 
         mc:Ignorable="d"
          Icon="256.ico"
-        
-        Title="Ulterius Daemon Manager" Height="166" Width="348" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#434B63">
+        Closing="Window_Closing"
+        Title="Ulterius Daemon Manager" Height="216" Width="343" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#434B63">
 
     <Window.Resources>
 
@@ -15,7 +16,8 @@
         <SolidColorBrush x:Key="UlteriusGrey" Color="#434B63" />
         <SolidColorBrush x:Key="UlteriusLightGrey" Color="#485069" />
     </Window.Resources>
-    <StackPanel Background="{StaticResource UlteriusGrey}" Margin="0,0,4,1">
+
+    <StackPanel Background="{StaticResource UlteriusGrey}" Margin="0,0,4,-19">
         <Label x:Name="UlteriusInstalledLabel" Content="Ulterius is Installed" HorizontalAlignment="Center" Foreground="White" FontSize="18"/>
         <TextBlock  x:Name="ServerStatusBlock" FontSize="18" Foreground="WhiteSmoke"  HorizontalAlignment="Center" Text="Server: Running"/>
         <TextBlock  x:Name="AgentStatusBlock"  FontSize="18" Foreground="WhiteSmoke" HorizontalAlignment="Center" Panel.ZIndex="-1" Text="Agent: Running"  />
@@ -23,12 +25,33 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                 <Button x:Name="RestartButton" Content="Restart Ulterius" Margin="5,0" Width="100" Height="30" Click="RestartButton_Click" />
                 <Button x:Name="StateButton" Content="Kill Ulterius" Margin="0,0,5,0" Width="100" Click="StateButton_Click" />
-                <Button x:Name="HelpButton" Content="Open Client" Margin="0,0,5,0" Width="100" Click="HelpButton_Click" />
+                <Button x:Name="ClientButton" Content="Open Client" Margin="0,0,5,0" Width="100" Click="HelpButton_Click" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10,0,0">
+                <Button x:Name="SurveyButton" Content="Take Survey" Margin="5,0" Width="100" Height="30" Click="Survey_Click" />
+                <Button x:Name="RegisterButton" Content="Sign Up" Margin="0,0,5,0" Width="100" Click="Register_Click" />
+                <Button x:Name="Guidebutton" Content="Open Guide" Margin="0,0,5,0" Width="100" Click="Guide_CLick" />
             </StackPanel>
 
-
         </StackPanel>
+        <tb:TaskbarIcon x:Name="TrayIcon"
+  IconSource="256.ico"
+  ToolTipText="hello world"
+ TrayMouseDoubleClick="OpenGui">
 
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open Control Panel"  Click="OpenGui" />
+                    <MenuItem Header="Exit" Click="CloseApp" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+
+        </tb:TaskbarIcon>
     </StackPanel>
+
+
+
+
+
 
 </Window>
