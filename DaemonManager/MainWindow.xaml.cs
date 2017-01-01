@@ -24,6 +24,7 @@ namespace DaemonManager
     {
         public MainWindow()
         {
+            Utils.RefreshTrayArea();
             Utils.KillAllButMe();
             if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1) return;
             InitializeComponent();
@@ -128,7 +129,8 @@ namespace DaemonManager
         {
             TrayIcon.Dispose();
             TrayIcon = null;
-            Environment.Exit(0);
+            Utils.RefreshTrayArea();
+            Application.Current.Shutdown();
         }
     }
 }

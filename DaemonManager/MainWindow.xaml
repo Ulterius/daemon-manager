@@ -8,7 +8,8 @@
         mc:Ignorable="d"
          Icon="256.ico"
         Closing="Window_Closing"
-        Title="Ulterius Daemon Manager" Height="216" Width="343" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#434B63">
+        Title="Ulterius Daemon Manager" Height="216" Width="343" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#434B63"
+>
 
     <Window.Resources>
 
