@@ -24,14 +24,19 @@ namespace DaemonManager
     {
         public MainWindow()
         {
-            Utils.RefreshTrayArea();
             Utils.KillAllButMe();
+           
             if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1) return;
             InitializeComponent();
-       
             var service = new Task(SetText);
             service.Start();
             this.Hide();
+            TrayIcon.TrayBalloonTipClosed += (sender, e) => {
+                var thisIcon = (NotifyIcon)sender;
+                thisIcon.Visible = false;
+                thisIcon.Dispose();
+            };
+
             TrayIcon.ShowBalloonTip("Ulterius", "Daemon manager started.", BalloonIcon.Info);
 
         }
@@ -129,7 +134,6 @@ namespace DaemonManager
         {
             TrayIcon.Dispose();
             TrayIcon = null;
-            Utils.RefreshTrayArea();
             Application.Current.Shutdown();
         }
     }

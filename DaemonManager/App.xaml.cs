@@ -12,19 +12,12 @@ namespace DaemonManager
     {
         protected override void OnExit(ExitEventArgs e)
         {
-            try
-            {
-               Utils.RefreshTrayArea();
-            }
-            finally
-            {
-                base.OnExit(e);
-            }
+            
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            Utils.RefreshTrayArea();
+           
         }
     }
 }
